@@ -1,0 +1,18 @@
+# Configure the members information.
+
+members = [
+	{
+		'name': 'Jane',
+		'url': 'https://www.dropbox.com/s/937xejz5dzd3qr3/personal_finance.db?dl=1',
+		'sql_filter': "where expense_tag like '%Shared%' and account != 'Shared'",
+		'multiplier': -1,
+		'initial': 0.0
+	},
+	{
+		'name': 'John',
+		'url': 'https://www.dropbox.com/s/zxtov1mhj89diwt/personal_finance.db?dl=1',
+		'sql_filter': "where expense_tag like '%Shared%'",
+		'multiplier': 1,
+		'initial': 149.43 * 2
+	}
+]
