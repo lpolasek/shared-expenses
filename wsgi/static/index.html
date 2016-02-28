@@ -34,13 +34,15 @@
 	<div ng-repeat="(year, year_data) in sumary" class="panel panel-danger">
 		<div ng-click="year_data.visible = !year_data.visible" class="panel-heading">  
 			<span class="glyphicon" ng-class="{ 'glyphicon-collapse-down': !year_data.visible, 'glyphicon-collapse-up': year_data.visible }" aria-hidden="true"></span>
-			{{ year | unQuote }}
+			{{ year | unQuote }} =
+			{{ year_data.amount | currency }}
 		</div>
 		<div ng-show="year_data.visible" class="panel-body">
 			<div ng-repeat="(month, month_data) in year_data.data" class="panel panel-danger">
 				<div ng-click="month_data.visible = !month_data.visible" class="panel-heading">
 					<span class="glyphicon" ng-class="{ 'glyphicon-collapse-down': !month_data.visible, 'glyphicon-collapse-up': month_data.visible }" aria-hidden="true"></span>
-					{{ month | unQuote }}
+					{{ month | unQuote }} =
+					{{ month_data.amount | currency }}
 				</div>
 				<div ng-show="month_data.visible" class="panel-body">
 					<table class="table">

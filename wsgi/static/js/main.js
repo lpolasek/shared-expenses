@@ -6,10 +6,14 @@ function groupBy(list, fn) {
 		var group = JSON.stringify(fn(list[i]));
 		if (group in groups) {
 			groups[group].data.push(list[i]);
+			groups[group].amount += list[i].amounts.reduce(function(previousValue, currentValue) {
+				return previousValue + currentValue;
+			}, 0.0);
 		} else {
 			groups[group] = {
 				visible: false,
-				data: [list[i]]
+				data: [list[i]],
+				amount: 0.0
 			};
 		}
 	}
@@ -27,7 +31,8 @@ function groupYearMonth(list) {
 			visible: years[key].visible,
 			data: groupBy(years[key].data, function(item) {
 				return item.date.substr(5, 2);
-			})
+			}),
+			amount: years[key].amount,
 		};
 	}
 	return result;
