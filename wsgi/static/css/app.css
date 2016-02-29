@@ -1,3 +1,16 @@
+.center {
+  text-align: center;
+}
+
+.left-border {
+  border-left: 1px solid black;
+}
+
 .even {
   background-color: #F0F0F0;
+}
+
+.debtor {
+  color: red;
+  font-weight: bold;
 }

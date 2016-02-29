@@ -46,7 +46,16 @@ app.controller('mainController', function($scope, $http) {
 			method: 'GET',
 			url: '/data.json'
 		}).success(function(data, status, headers, config) {
-			$scope.debtor = data.summary.slice(-1).pop();
+			$scope.debtors = [];
+			data.summary.slice(-1)[0].balance.forEach( function( bal, index ) {
+				if( bal < 0 ) {
+					$scope.debtors.push({
+						'name': data.members[index],
+						'balance': bal
+					});
+				}
+			});
+
 			$scope.members = data.members;
 			$scope.sumary = groupYearMonth(data.summary);
 

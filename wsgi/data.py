@@ -11,8 +11,6 @@ def create_row(date,description,amounts, balance=0.0, debtor=""):
 		'date': str(date),
 		'description': description,
 		'amounts': amounts,
-		'balance': balance,
-		'debtor': debtor,
 	}
 
 # TODO: allow diferent input data formats.
@@ -20,7 +18,7 @@ def copa():
 
 	result = []
 	n_members = len(config.members)
-	
+
 	for column,member in enumerate(config.members):
 		
 		member_file = tempfile.NamedTemporaryFile(delete=False)
@@ -44,26 +42,23 @@ def copa():
 				result.append(create_row(date, desc,amounts))
 	
 			conn.close()
-		finally:	
+		finally:
 			os.remove(member_file.name)
 
 	resultS = sorted(result, key=lambda row: row['date'])
 
 	amounts = [ 0.0 ] * n_members
-	for column,member in enumerate(config.members):
-		amounts[column] = member['initial']
 	resultS.insert(0, create_row(resultS[0]['date'], 'Remanider',amounts))
 
 	# Post processing
-	balance = 0
+	balance = [ 0.0 ] * n_members
+	for column,member in enumerate(config.members):
+		balance[column] = member['initial']
+
 	for row in resultS:
-		amounts = map(lambda x,y: x*y, map(lambda x: x['multiplier'], config.members), row['amounts'])
-		balance = reduce(lambda x,y: x + y * (n_members-1) / n_members,  amounts, balance)
-		row['balance'] = balance
-		debtor = ''
-		for member in config.members:
-			if balance * member['multiplier'] < 0:
-				debtor = member['name']
-		row['debtor'] = debtor
+		for column,member in enumerate(config.members):
+			balance[column] += row['amounts'][column]
+			balance = [ x - row['amounts'][column]  / n_members for x in balance ]
+		row['balance'] = balance[:]
 
 	return resultS
