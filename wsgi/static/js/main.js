@@ -13,7 +13,9 @@ function groupBy(list, fn) {
 			groups[group] = {
 				visible: false,
 				data: [list[i]],
-				amount: 0.0
+				amount: list[i].amounts.reduce(function(previousValue, currentValue) {
+					return previousValue + currentValue;
+				}, 0.0)
 			};
 		}
 	}
