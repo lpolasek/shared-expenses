@@ -4,20 +4,17 @@ function groupBy(list, fn) {
 	var groups = {};
 	for (var i = 0; i < list.length; i++) {
 		var group = JSON.stringify(fn(list[i]));
-		if (group in groups) {
-			groups[group].data.push(list[i]);
-			groups[group].amount += list[i].amounts.reduce(function(previousValue, currentValue) {
-				return previousValue + currentValue;
-			}, 0.0);
-		} else {
+		if (! (group in groups)) {
 			groups[group] = {
 				visible: false,
-				data: [list[i]],
-				amount: list[i].amounts.reduce(function(previousValue, currentValue) {
-					return previousValue + currentValue;
-				}, 0.0)
+				data: [],
+				amount: 0.0
 			};
 		}
+		groups[group].data.push(list[i]);
+		groups[group].amount += list[i].amounts.reduce(function(previousValue, currentValue) {
+			return previousValue + currentValue;
+		}, 0.0);
 	}
 	return groups;
 }
